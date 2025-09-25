@@ -1,0 +1,33 @@
+
+
+
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background:rgb(32, 205, 81); padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+<h1> {{nameUser|upper}}! ✅</h1>
+{{'$HELLO'|lower|trim('$')}}
+
+<a href="{{path('app_auth')}}">link1</a>
+<a href="{{url('app_auth')}}">link1</a>
+
+{% for i in 0..9 %}
+{{i}}
+{% endfor %}
+{#commentaire#}
+{% set hour=14 %}
+{% if hour < 12%}
+<p>Bonjour</p>
+{% elseif hour < 18  %}
+<p>Bon aprés-midi</p>
+{% else %}
+<p>Bonsoir</p>
+{% endif %}
+
+
+
+    
+</div>
+
