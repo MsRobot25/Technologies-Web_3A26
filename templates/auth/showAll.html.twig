@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des auteurs{% endblock %}
+
+{% block body %}
+   <table border="1" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Email</th>
+    </tr>
+    {% for author in list %}
+        <tr>
+            <td>{{ author.id }}</td>
+            <td>{{ author.username }}</td>
+            <td>{{ author.email }}</td>
+            
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">Aucun auteur trouvé</td>
+        </tr>
+    {% endfor %}
+</table>
+      
+{% endblock %}

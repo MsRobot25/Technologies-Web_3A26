@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
+use App\Repository\AuthorRepository;
 final class AuthController extends AbstractController
 {
     #[Route('/auth', name: 'app_auth')]
@@ -53,6 +53,15 @@ public function authorDetails(int $id): Response
         'author' => $author,
     ]);
 }
+  #[Route('/showAll', name: 'showAll')]
+  public function showAll(AuthorRepository $repo): Response
+    {
+        $authors=$repo->findAll();
+         return $this->render('auth/showAll.html.twig', 
+         parameters:['list'=>$authors]);
+
+        
+   }
 
 
 
