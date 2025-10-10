@@ -8,13 +8,18 @@
         <th>ID</th>
         <th>Nom</th>
         <th>Email</th>
+         <th>actions</th>
     </tr>
-    {% for author in list %}
+    {% for i in list %}
         <tr>
-            <td>{{ author.id }}</td>
-            <td>{{ author.username }}</td>
-            <td>{{ author.email }}</td>
-            
+            <td>{{ i.id }}</td>
+            <td>{{ i.username }}</td>
+            <td>{{ i.email }}</td>
+            <td>
+<a href="{{path('delete',{'id':i.id})}}">Delete</a> {#or URL #}
+<a href="{{path('delete',{'id':i.id})}}">modifier</a> {#or URL #}
+<a href="{{path('showDetails',{'id':i.id})}}">Show</a> {#or URL #}
+
         </tr>
     {% else %}
         <tr>
