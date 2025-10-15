@@ -1,1 +1,16 @@
-{{form(formulaire)}}
+{#{{form(formulaire)}}#}
+
+{{form_start(formulaire)}} {#<form>#}
+
+{{form_label(formulaire.email,'Votre nom')}} {#<label>#}
+{{form_widget(formulaire.email)}} {#<input type>#}
+{{form_errors(formulaire.email)}} 
+
+{{form_label(formulaire.username)}} {#<label>#}
+{{form_widget(formulaire.username)}} {#<input type>#}
+{{form_errors(formulaire.username)}}
+
+
+
+
+{{form_end(formulaire)}} {#</form>#}

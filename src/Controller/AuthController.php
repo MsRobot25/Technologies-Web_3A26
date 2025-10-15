@@ -122,6 +122,23 @@ return $this->redirectToRoute('showAll');
     // return $this->renderForm()
     }
 
+    #[Route('/edit/{id}', name: 'edit_author')]
+public function edit( int $id,AuthorRepository $repo, Request $request, ManagerRegistry $doctrine): Response {
+ $author = $repo->find($id);
+ $form = $this->createForm(AuthorType::class, $author);
+ $form->add('Modifier', SubmitType::class);
+ $form->handleRequest($request);
+ if($form->isSubmitted()){
+     $em=$doctrine->getManager();
+     $em->flush();
+     return $this->redirectToRoute('showAll');
+    }
+     return $this->render('auth/edit.html.twig', [
+        'formulaire' => $form->createView(),
+        'author' => $author,
+    ]);
+}
+
 
 
 

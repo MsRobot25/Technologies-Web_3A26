@@ -17,7 +17,7 @@
             <td>{{ i.email }}</td>
             <td>
 <a href="{{path('delete',{'id':i.id})}}">Delete</a> {#or URL #}
-<a href="{{path('delete',{'id':i.id})}}">modifier</a> {#or URL #}
+<a href="{{path('edit_author',{'id':i.id})}}">modifier</a> {#or URL #}
 <a href="{{path('showDetails',{'id':i.id})}}">Show</a> {#or URL #}
 
         </tr>

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Update Book{% endblock %}
+
+{% block body %}
+    <h1>Update Book</h1>
+
+    {{ form_start(form) }}
+
+        {% if book.id is defined %}
+            <div>
+                <label>Ref</label>
+                <input type="text" value="{{ book.id }}" readonly>
+            </div>
+        {% endif %}
+
+        <div>
+            {{ form_label(form.title, 'Title') }}
+            {{ form_widget(form.title) }}
+        </div>
+
+        <div>
+            {{ form_label(form.publicationDate, 'Publication date') }}
+            {{ form_widget(form.publicationDate) }}
+        </div>
+        <div>
+           published: YES
+        </div>
+
+        <div>
+            {{ form_label(form.category, 'Category') }}
+            {{ form_widget(form.category) }}
+        </div>
+
+        <div>
+            {{ form_label(form.author, 'Author') }}
+            {{ form_widget(form.author) }}
+        </div>
+
+        <button type="submit">Save</button>
+
+    {{ form_end(form) }}
+
+    <p style="margin-top: 20px;">
+        <a href="{{ path('app_book_list') }}">back to list</a>
+    </p>
+
+{% endblock %}
