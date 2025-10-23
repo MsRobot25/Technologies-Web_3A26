@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche Livre{% endblock %}
+
+{% block body %}
+    <h1>Recherche d’un livre par référence</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.id) }}
+        {{ form_row(form.search) }}
+    {{ form_end(form) }}
+
+  {% if book %}
+    <h3>Résultat :</h3>
+    <ul>
+        <li><strong>Titre :</strong> {{ book.title }}</li>
+        <li><strong>Référence :</strong> {{ book.id }}</li>
+        <li><strong>Auteur :</strong> {{ book.author.username }}</li>
+    </ul>
+{% elseif submitted %}
+    <p>Aucun livre trouvé avec cette référence.</p>
+{% endif %}
+
+{% endblock %}

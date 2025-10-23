@@ -1,0 +1,22 @@
+{# reader/add.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Reader{% endblock %}
+
+{% block body %}
+    <h1>Add New Reader</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        <hr>
+        <h3>Choose Books to Associate:</h3>
+        {{ form_row(form.books) }} 
+
+        <hr>
+        
+        <button type="submit">Save</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_reader_list') }}">back to list</a>
+{% endblock %}

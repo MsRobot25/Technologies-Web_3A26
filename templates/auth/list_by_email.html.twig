@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des auteurs par Email{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mb-4">Liste des auteurs triés par adresse email</h1>
+
+    {% if authors is empty %}
+        <p class="text-center">Aucun auteur trouvé.</p>
+    {% else %}
+        <table border="1" cellspacing="0" cellpadding="8" style="margin: auto; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #f0f0f0;">
+                    <th>ID</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Nombre de livres</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for author in authors %}
+                    <tr>
+                        <td>{{ author.id }}</td>
+                        <td>{{ author.username }}</td>
+                        <td>{{ author.email }}</td>
+                        <td>{{ author.nbBooks }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

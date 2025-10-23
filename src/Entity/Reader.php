@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AuthorRepository;
+use App\Repository\ReaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AuthorRepository::class)]
-class Author
+#[ORM\Entity(repositoryClass: ReaderRepository::class)]
+class Reader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,17 +18,11 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
-
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author')]
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'readers')]
     private Collection $books;
-
-    #[ORM\Column]
-    private ?int $nb_books = 0;
 
     public function __construct()
     {
@@ -52,18 +46,6 @@ class Author
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Book>
      */
@@ -76,7 +58,7 @@ class Author
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setAuthor($this);
+            $book->addReader($this);
         }
 
         return $this;
@@ -85,23 +67,8 @@ class Author
     public function removeBook(Book $book): static
     {
         if ($this->books->removeElement($book)) {
-            // set the owning side to null (unless already changed)
-            if ($book->getAuthor() === $this) {
-                $book->setAuthor(null);
-            }
+            $book->removeReader($this);
         }
-
-        return $this;
-    }
-
-    public function getNbBooks(): ?int
-    {
-        return $this->nb_books;
-    }
-
-    public function setNbBooks(int $nb_books): static
-    {
-        $this->nb_books = $nb_books;
 
         return $this;
     }

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reader Details{% endblock %}
+
+{% block body %}
+    <h1>Reader Details</h1>
+
+    <p><strong>ID:</strong> {{ reader.id }}</p>
+    <p><strong>Username:</strong> {{ reader.username }}</p>
+
+    <hr>
+    
+    <h2>Books Read by {{ reader.username }} (Total: {{ books|length }})</h2>
+    
+    {% if books is empty %}
+        <p>This reader has not checked out any books yet.</p>
+    {% else %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author.username ?? 'N/A' }}</td>
+                        <td><a href="{{ path('app_book_show', {'id': book.id}) }}">Show Book Details</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <hr>
+    <a href="{{ path('app_reader_list') }}">Back to Reader List</a>
+{% endblock %}

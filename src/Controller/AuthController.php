@@ -11,6 +11,8 @@ use App\Repository\AuthorRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Author;
 use App\Form\AuthorType;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Form\SearchAuthorType;
 
 final class AuthController extends AbstractController
 {
@@ -29,7 +31,7 @@ final class AuthController extends AbstractController
     );}
 
     #[Route('/authors', name: 'list_authors')]
-public function listAuthors(): Response
+public function listAuthorss(): Response
 {
     $authors = [
         ['id' => 1, 'picture' => '/assets/images/default.jpg', 'username' => 'Victor Hugo', 'email' => 'victor.hugo@gmail.com', 'nb_books' => 100],
@@ -119,7 +121,7 @@ return $this->redirectToRoute('showAll');
      return $this->redirectToRoute('showAll');
     }
     return $this->render('auth/add.html.twig',['formulaire'=>$form->createView()]);
-    // return $this->renderForm()
+    
     }
 
     #[Route('/edit/{id}', name: 'edit_author')]
@@ -138,9 +140,68 @@ public function edit( int $id,AuthorRepository $repo, Request $request, ManagerR
         'author' => $author,
     ]);
 }
+#[Route('/authors/by-email', name: 'app_author_by_email')]
+public function listByEmail(AuthorRepository $repo): Response
+{
+    $authors = $repo->listAuthorByEmail();
+    return $this->render('auth/list_by_email.html.twig', [
+        'authors' => $authors,
+    ]);
+}
 
+#[Route(path: '/ShowAllAuthorsDQL', name:'ShowAll Authors DQL' )]
+public function ShowAllAuthorsDQL(){
+$query=$this->getEntityManager ()
+->createQuery(dql: 'SELECT a FROM App\Entity Author a WHERE
+a. username LIKE :condition')
+->setParameter(key: 'condition ', value: '%a%')
+->getResult();
+return $query;
+}
 
+#[Route('/authors', name: 'list_authors')]
+public function listAuthors(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $form = $this->createForm(SearchAuthorType::class);
+    $form->handleRequest($request);
+    $queryBuilder = $entityManager->getRepository(Author::class)->createQueryBuilder('a');
 
+    if ($form->isSubmitted()) {
+        $data = $form->getData();
+
+      if ($data['minBooks'] !== null) {
+    $queryBuilder->andWhere('a.nb_books >= :minBooks')
+                 ->setParameter('minBooks', $data['minBooks']);
+}
+
+if ($data['maxBooks'] !== null) {
+    $queryBuilder->andWhere('a.nb_books <= :maxBooks')
+                 ->setParameter('maxBooks', $data['maxBooks']);
+}
+
+    }
+    $authors = $queryBuilder->getQuery()->getResult();
+    return $this->render('auth/listSearch.html.twig', [
+        'list' => $authors,
+        'form' => $form->createView(),
+    ]);
+}
+
+#[Route('/authors/delete-zero-books', name: 'delete_zero_books_authors_dql')]
+public function deleteZeroBooksAuthorsDQL(EntityManagerInterface $entityManager): Response
+{
+    $query = $entityManager->createQuery(
+        'DELETE FROM App\Entity\Author a WHERE a.nb_books = 0'
+    );
+
+    $query->execute();
+
+    return $this->redirectToRoute('showAll');
+}
 
 
 }
+
+
+
+

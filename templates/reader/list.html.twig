@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reader List{% endblock %}
+
+{% block body %}
+    <h1>Reader List</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reader in readers %}
+            <tr>
+                <td>{{ reader.id }}</td>
+                <td>{{ reader.username }}</td>
+                <td>
+                      <a href="{{ path('app_reader_show', {'id': reader.id}) }}">show</a>
+                    <a href="{{ path('app_reader_edit', {'id': reader.id}) }}">edit</a>
+                    <a href="{{ path('app_reader_delete', {'id': reader.id}) }}"
+                    onclick="return confirm('Are you sure you want to delete this reader?');">
+                        delete
+                        </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reader_add') }}">Create new Reader</a>
+{% endblock %}

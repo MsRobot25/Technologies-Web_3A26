@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des auteurs{% endblock %}
+
+{% block body %}
+<h1>Liste des auteurs</h1>
+
+{{ form_start(form) }}
+<div style="display: flex; gap: 10px; align-items: center;">
+    {{ form_row(form.minBooks) }}
+    {{ form_row(form.maxBooks) }}
+    {{ form_row(form.search) }}
+   
+</div>
+{{ form_end(form) }}
+</br>
+
+<table border="2" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Nombre de livres</th> 
+        <th>Actions</th>
+    </tr>
+    {% for i in list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.username }}</td>
+            <td>{{ i.email }}</td>
+            <td>{{ i.nbBooks }}</td>
+            
+            <td>
+                <a href="{{ path('delete', {'id': i.id}) }}">Delete</a>
+                <a href="{{ path('edit_author', {'id': i.id}) }}">Modifier</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">Aucun auteur trouvé</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
