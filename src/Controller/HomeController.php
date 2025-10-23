@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\MessageGenerator;
+use App\Service\HappyQuote\Happy;
+
 
 final class HomeController extends AbstractController
 {
@@ -46,5 +48,12 @@ public function home(MessageGenerator $messageGenerator): Response
 {
 $message = $messageGenerator->getHappyMessage();
 return new Response("<h1>Citation du jour :</h1><p>$message</p>");
+} 
+ #[Route('/happy2', name: 'Happy')]
+public function HomeHappy(Happy $Happy): Response
+{
+$message = $Happy->getHappyMessage();
+return $this->render('auth/showAll.html.twig'
+    );
 } 
 }

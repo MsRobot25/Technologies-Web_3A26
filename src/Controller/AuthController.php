@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Service\HappyQuote\HappyQuote;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,7 +79,6 @@ $em=$doctrine->getManager();
 $em->persist(object: $author);
 $em->flush();
 return $this->redirectToRoute('showAll');
-//return new Response(content: "Author added suceesfully");
 
         
    }
@@ -198,6 +197,18 @@ public function deleteZeroBooksAuthorsDQL(EntityManagerInterface $entityManager)
 
     return $this->redirectToRoute('showAll');
 }
+#[Route('/showAll2', name: 'showAll2')]
+public function showAllHappy(AuthorRepository $repo,  HappyQuote $happy): Response
+{
+    $authors = $repo->findAll();
+    $happyMessage = $happy->getHappyMessage();
+
+    return $this->render('auth/showAll.html.twig', [
+        'list' => $authors,
+        'happyMessage' => $happyMessage,
+    ]);
+}
+
 
 
 }
