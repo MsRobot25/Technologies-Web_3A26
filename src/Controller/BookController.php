@@ -142,10 +142,6 @@ public function ShowRomanceBooksCountDQL(EntityManagerInterface $entityManager):
 
     return new Response('<h2>Nbr livre de catégorie Romance :</h1> ' . $count);
 }
-
-
-
-
 #[Route(path: '/BooksBetweenDates', name: 'ShowBooksBetweenDatesDQL')]
 public function ShowBooksBetweenDatesDQL(EntityManagerInterface $entityManager): Response
 {
